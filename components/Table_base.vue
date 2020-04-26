@@ -59,10 +59,7 @@
             </tr>
           </tbody>
         </table>
-        <div v-if="!loading">
-          {{ tvInfos }}
-          MERDE
-        </div>
+        <div v-if="!loading">{{ tvInfos }}</div>
       </div>
     </div>
   </div>

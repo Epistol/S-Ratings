@@ -22,6 +22,11 @@ module.exports = {
       "anonymous": "never",
       "named": "never",
       "asyncArrow": "ignore"
+    }],
+    "vue/singleline-html-element-content-newline": ["error", {
+      "ignoreWhenNoAttributes": true,
+      "ignoreWhenEmpty": true,
+      "ignores": ["pre", "textarea", ...INLINE_ELEMENTS]
     }]
   },
   parserOptions: {
