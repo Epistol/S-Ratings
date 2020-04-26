@@ -8,30 +8,20 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { defineComponent } from '@vue/composition-api'
+
 import Logo from '~/components/Logo.vue'
 import TableBase from '~/components/Table_base.vue'
 
-export default Vue.extend({
+export default defineComponent({
+  name: 'Index',
   components: {
-    Logo, TableBase
-  }
+    Logo,
+    TableBase,
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  setup(props, ctx) {
+    return {}
+  },
 })
 </script>
-
-<style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-</style>

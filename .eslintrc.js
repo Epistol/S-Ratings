@@ -10,5 +10,21 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    "nuxt/no-cjs-in-config": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "curly": "off",
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "no-unused-expressions": "error",
+    "space-before-function-paren": ["error", {
+      "anonymous": "never",
+      "named": "never",
+      "asyncArrow": "ignore"
+    }]
+  },
+  parserOptions: {
+    parser: "@typescript-eslint/parser"
   }
 }

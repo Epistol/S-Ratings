@@ -1,6 +1,8 @@
 {
   "files.exclude": {
-    "node_modules": true
+    "node_modules": true,
+    ".nuxt": true,
+    ".github": true
   },
-  "workspace.isHidden": false
+  "workspace.isHidden": true
 }
