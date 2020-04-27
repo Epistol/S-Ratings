@@ -3,6 +3,7 @@
     <div>
       <logo />
       <template v-if="tvInfos && !loading">Seasons : {{ tvInfos.number_of_seasons }}</template>
+      <template v-if="tvInfos && !loading">Episodes : {{ tvInfos.number_of_episodes }}</template>
       <TableBase />
     </div>
   </div>
@@ -14,10 +15,11 @@ import { defineComponent, Ref } from '@vue/composition-api'
 import Logo from '~/components/Logo.vue'
 import TableBase from '~/components/Table_base.vue'
 import useMovieApi from '@/composables/use-movie-api'
-import { TvShow } from '~/types/tv-show'
+
+import TvShowDetails from '@/types/tv-show-details'
 
 interface movieApi {
-  tvInfos: Readonly<Ref<Readonly<TvShow> | null | undefined>>
+  tvInfos: Readonly<Ref<Readonly<TvShowDetails> | null | undefined>>
   loading?: Ref<boolean | undefined> | undefined
 }
 

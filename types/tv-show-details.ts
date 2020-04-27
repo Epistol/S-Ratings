@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
 import { TvShow } from './tv-show'
-import { Person } from './person'
+import Person from './person'
 import { Genre } from './genre'
 import { Network } from './network'
 import { Company } from './company'
 import { Season } from './season'
 
-export interface TvShowDetails extends TvShow {
+export default interface TvShowDetails extends TvShow {
   created_by: Person[]
   episode_run_time: number[]
   genres: Genre[];

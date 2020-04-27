@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-export interface Movie {
+export default interface Movie {
   id: number;
   title: string;
   original_title: string;
