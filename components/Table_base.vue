@@ -59,7 +59,6 @@
             </tr>
           </tbody>
         </table>
-        <div v-if="!loading">{{ tvInfos }}</div>
       </div>
     </div>
   </div>
@@ -67,15 +66,12 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
-import useMovieApi from '@/composables/use-movie-api'
 
 export default defineComponent({
   name: 'tableBase',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {
-    const apiSelected = process.env.API_CHOICE ? process.env.API_CHOICE : 'TMDB'
-    const { tvInfos, loading } = useMovieApi({ ctx, apiSelected })
-    return { tvInfos, loading }
+    return {}
   },
 })
 </script>

@@ -20,14 +20,13 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "@vue/composition-api": "^0.5.0",
     "nuxt": "^2.0.0",
-    "nuxt-i18n": "^6.10.1",
-    "qs": "^6.9.3"
+    "nuxt-i18n": "^6.10.1"
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.6.0",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
     "@nuxtjs/eslint-module": "^1.2.0",
-    "@nuxtjs/tailwindcss": "^1.0.0",
+    "@nuxtjs/tailwindcss": "^1.4.1",
     "@typescript-eslint/parser": "^2.29.0",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-eslint": "^10.0.1",

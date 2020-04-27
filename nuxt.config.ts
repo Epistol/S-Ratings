@@ -1,5 +1,4 @@
 import { Configuration } from '@nuxt/types/config'
-
 const config: Configuration = {
   server: {
     port: 8081,
@@ -12,7 +11,24 @@ const config: Configuration = {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     '@nuxtjs/pwa',
-    '~/config/language',
+    [
+      'nuxt-i18n',
+      {
+        locales: ['en', 'es'],
+        defaultLocale: 'en',
+        vueI18n: {
+          fallbackLocale: 'en',
+          messages: {
+            en: {
+              greeting: 'Hello world!',
+            },
+            es: {
+              greeting: '¡Hola mundo!',
+            },
+          },
+        },
+      },
+    ],
   ],
 }
 

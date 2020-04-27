@@ -1,5 +1,5 @@
-import { reactive, toRefs, SetupContext } from '@vue/composition-api'
-import qs from 'qs'
+import { reactive, SetupContext, computed, toRefs } from '@vue/composition-api'
+import State from '~/types/state'
 
 interface Options {
   ctx: SetupContext,
@@ -9,12 +9,11 @@ interface Options {
 export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
   const endpoint: string = apiSelected === 'TMDB' ? 'https://api.themoviedb.org/3/tv/' : ''
 
-  const state = reactive({
+  const state: State = reactive({
     error: null,
     loading: false,
     promise: null,
     result: null,
-    tvInfos: null,
   })
 
   const tvShowId = apiSelected === 'TMDB' ? '456-the-simpsons' : 'simpsons'
@@ -22,26 +21,25 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
   const getTvInfos = async () => {
     const url = apiSelected === 'TMDB' ? (endpoint + tvShowId) : endpoint
     state.loading = true
-
-    await ctx.root.$axios.get(
-      url,
+    const { data } = await ctx.root.$axios.get(url,
       {
         params: {
           api_key: apiSelected === 'TMDB' ? process.env.NUXT_ENV_TMDB_API : null,
         },
       },
-    ).then((res: any) => {
-      state.tvInfos = res.data
-      console.log('getTvInfos -> res.data', res.data)
-      state.loading = false
-    })
+    )
+    state.result = data
+    state.loading = false
   }
 
-  if (state.tvInfos === null) {
+  if (state.result === null) {
     getTvInfos()
   }
 
+  const tvInfos = computed(() => state?.result)
+
   return {
+    tvInfos,
     ...toRefs(state),
   }
 }
