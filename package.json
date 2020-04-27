@@ -10,7 +10,8 @@
     "generate": "nuxt-ts generate",
     "start": "nuxt-ts start",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "test": "jest"
+    "test": "jest",
+    "commit": "npx git-cz"
   },
   "dependencies": {
     "@nuxt/typescript-runtime": "^0.4.0",
@@ -24,6 +25,8 @@
   },
   "devDependencies": {
     "@nuxt/typescript-build": "^0.6.0",
+    "husky": "^4.2.5",
+    "commitizen": "^4.0.4",
     "@nuxtjs/eslint-config-typescript": "^1.0.0",
     "@nuxtjs/eslint-module": "^1.2.0",
     "@nuxtjs/tailwindcss": "^1.0.0",

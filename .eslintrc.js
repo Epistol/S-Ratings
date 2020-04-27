@@ -23,11 +23,8 @@ module.exports = {
       "named": "never",
       "asyncArrow": "ignore"
     }],
-    "vue/singleline-html-element-content-newline": ["error", {
-      "ignoreWhenNoAttributes": true,
-      "ignoreWhenEmpty": true,
-      "ignores": ["pre", "textarea", ...INLINE_ELEMENTS]
-    }]
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/multiline-html-element-content-newline': 'off',
   },
   parserOptions: {
     parser: "@typescript-eslint/parser"
