@@ -1,10 +1,15 @@
 <template>
-  <div class="container">
-    <div>
-      <logo />
-      <template v-if="showDetails && !loading">Seasons : {{ showDetails.number_of_seasons }}</template>
-      <template v-if="showDetails && !loading">Episodes : {{ showDetails.number_of_episodes }}</template>
-      <TableBase />
+  <div class="w-full max-w-screen-xl mx-auto px-6">
+    <logo />
+
+    <template v-if="showDetails && !loading">Seasons : {{ showDetails.number_of_seasons }}</template>
+    <template v-if="showDetails && !loading">Episodes : {{ showDetails.number_of_episodes }}</template>
+    <div v-if="seasons.length && showDetails" class="w-full max-w-screen-xl mx-auto px-6">
+      <TableBase
+        :infos="showDetails"
+        :seasons="seasons"
+        :max-nb-episodes-per-season="maxNbEpisodesPerSeason"
+      />
     </div>
   </div>
 </template>
@@ -32,10 +37,14 @@ export default defineComponent({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {
     const apiSelected = process.env.API_CHOICE ? process.env.API_CHOICE : 'TMDB'
-    const { showDetails, ratings, loading } = useMovieApi({ ctx, apiSelected })
-    console.log('setup -> ratings', ratings)
+    const {
+      showDetails,
+      maxNbEpisodesPerSeason,
+      seasons,
+      loading,
+    } = useMovieApi({ ctx, apiSelected })
 
-    return { showDetails, ratings, loading }
+    return { showDetails, seasons, loading, maxNbEpisodesPerSeason }
   },
 })
 </script>

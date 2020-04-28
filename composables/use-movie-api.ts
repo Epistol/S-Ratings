@@ -14,7 +14,8 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
     loading: false,
     promise: null,
     showDetails: null,
-    ratings: [],
+    seasons: [],
+    maxNbEpisodesPerSeason: 0,
   })
 
   const tvShowId = apiSelected === 'TMDB' ? '456-the-simpsons' : 'simpsons'
@@ -31,19 +32,27 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
     )
     state.showDetails = data
     state.loading = false
-    if (state.ratings.length === 0) {
-      getShowRatings()
+    if (!state.seasons.length) {
+      state.seasons = await getShowRatings()
+      state.maxNbEpisodesPerSeason = state.seasons
+        .map((data: any) => data.infos.episodes)
+        .map((seasons: any) => seasons.length)
+        .reduce((max: any, val: any) => {
+          return max > val ? max : val
+        })
     }
   }
 
   const getShowRatings = async () => {
+    const ratings = []
     if (state.showDetails) {
-      for (let seasonNb = 0; seasonNb <= state.showDetails.number_of_seasons; seasonNb++) {
-        const ratings = await getSeasonRatings(seasonNb)
-        state.ratings.push({ seasonNb, ratings })
+      for (let seasonNb = 1; seasonNb <= state.showDetails.number_of_seasons; seasonNb++) {
+        const infos = await getSeasonRatings(seasonNb)
+        const votesAvg = infos.episodes.map((data: any) => data.vote_average)
+        ratings.push({ seasonNb, votesAvg, infos })
       }
-      console.log('getShowRatings -> state.ratings', state.ratings)
     }
+    return ratings
   }
 
   const getSeasonRatings = async (seasonNb: number) => {
@@ -55,14 +64,7 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
         },
       },
     )
-    console.log('getSeasonRatings -> data', data)
-    const nbEpisodes = data.episodes.count
-    return {
-      ...data,
-      episodes: data
-        .map((data: any) => data.vote_average)
-        .filter((data: any) => data.episode_number <= nbEpisodes),
-    }
+    return data
   }
 
   if (state.showDetails === null) {

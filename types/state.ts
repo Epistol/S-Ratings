@@ -6,5 +6,6 @@ export default interface State extends Data {
   loading?: boolean,
   promise?: null,
   showDetails?: TvShowDetails | null
-  ratings?: any
+  seasons?: any,
+  maxNbEpisodesPerSeason?: number
 }
