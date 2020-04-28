@@ -5,8 +5,7 @@
     <template v-if="showDetails && !loading">Seasons : {{ showDetails.number_of_seasons }}</template>
     <template v-if="showDetails && !loading">Episodes : {{ showDetails.number_of_episodes }}</template>
 
-    <br />
-
+    <br>
     <p>
       Seasons ->
       Episodes ↓
