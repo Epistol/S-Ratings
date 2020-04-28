@@ -29,7 +29,14 @@ const config: Configuration = {
         },
       },
     ],
+    'bootstrap-vue/nuxt',
   ],
+  bootstrapVue: {
+    componentPlugins: [
+      'TablePlugin',
+    ],
+    directivePlugins: ['VBPopoverPlugin', 'VBTooltipPlugin', 'VBScrollspyPlugin'],
+  },
 }
 
 export default config

@@ -19,6 +19,7 @@
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
     "@vue/composition-api": "^0.5.0",
+    "bootstrap-vue": "^2.13.0",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.10.1"
   },

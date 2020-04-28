@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full max-w-screen-xl mx-auto px-6">
+  <div class="w-full max-w-screen-xl mx-auto px-2">
     <logo />
 
     <template v-if="showDetails && !loading">Seasons : {{ showDetails.number_of_seasons }}</template>
@@ -11,7 +11,7 @@
       Seasons ->
       Episodes ↓
     </p>
-    <div v-if="seasons.length && showDetails" class="w-full max-w-screen-xl mx-auto px-6">
+    <div v-if="seasons.length && showDetails" class="w-full max-w-screen-xl mx-auto px-4">
       <TableBase
         :infos="showDetails"
         :seasons="seasons"
@@ -25,6 +25,7 @@
 import { defineComponent, Ref } from '@vue/composition-api'
 
 import Logo from '~/components/Logo.vue'
+// import TableBase from '~/components/Table_base.vue'
 import TableBase from '~/components/Table_base.vue'
 import useMovieApi from '@/composables/use-movie-api'
 

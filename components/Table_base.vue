@@ -7,9 +7,8 @@
         <table class="min-w-full">
           <thead>
             <tr>
-              <th />
-              <template v-for="season in seasons">
-                <th :key="season.seasonNb">{{ season.seasonNb }}</th>
+              <template v-for="field in fields">
+                <th :key="field.key">{{ field.key }}</th>
               </template>
             </tr>
           </thead>
@@ -22,7 +21,7 @@
                     :key="index"
                     class="p-1 whitespace-no-wrap border-b border-gray-200"
                     :class="setBgCell(rating)"
-                  >{{ rating !== null ? rating.toFixed(2) : rating }}</td>
+                  >{{ rating !== null ? rating.toFixed(1) : rating }}</td>
                 </template>
               </tr>
             </template>
@@ -58,6 +57,11 @@ export default defineComponent({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {
     const ratingsPerEpisodeNb: any = []
+    const fields: any = [{ key: '', sortable: false }]
+    props.seasons.map((season: any) => {
+      fields.push({ key: season.seasonNb, sortable: true })
+    })
+    console.log('setup -> fields', fields)
 
     const setRatingsPerEpisodeNb = () => {
       for (
@@ -94,7 +98,7 @@ export default defineComponent({
         return 'bg-green-500'
       }
     }
-    return { ratingsPerEpisodeNb, setBgCell }
+    return { ratingsPerEpisodeNb, setBgCell, fields }
   },
 })
 </script>
