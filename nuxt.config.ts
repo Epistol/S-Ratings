@@ -8,6 +8,9 @@ const config: Configuration = {
   plugins: [
     '~/plugins/composition-api.ts',
   ],
+  generate: {
+    fallback: true,
+  },
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
