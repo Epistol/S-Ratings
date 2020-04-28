@@ -4,7 +4,7 @@ const config: Configuration = {
     port: 8081,
   },
   srcDir: './src/',
-  buildModules: ['@nuxt/typescript-build', '@nuxtjs/tailwindcss'],
+  buildModules: ['@nuxt/typescript-build', '@nuxtjs/tailwindcss', '@aceforth/nuxt-netlify'],
   plugins: [
     '~/plugins/composition-api.ts',
   ],
