@@ -7,6 +7,7 @@
         <table class="min-w-full">
           <thead>
             <tr>
+              <th />
               <template v-for="season in seasons">
                 <th :key="season.seasonNb">{{ season.seasonNb }}</th>
               </template>
@@ -19,8 +20,9 @@
                 <template v-for="(rating, index) in ratingPerEpisodeNb.ratings">
                   <td
                     :key="index"
-                    class="px-6 py-4 whitespace-no-wrap border-b border-gray-200"
-                  >{{ rating }}</td>
+                    class="p-1 whitespace-no-wrap border-b border-gray-200"
+                    :class="setBgCell(rating)"
+                  >{{ rating !== null ? rating.toFixed(2) : rating }}</td>
                 </template>
               </tr>
             </template>
@@ -75,7 +77,24 @@ export default defineComponent({
     }
     setRatingsPerEpisodeNb()
 
-    return { ratingsPerEpisodeNb }
+    const setBgCell = (rating: number) => {
+      if (rating === null) {
+        return null
+      }
+      if (rating < 7) {
+        return 'bg-red-500'
+      }
+      if (rating < 8) {
+        return 'bg-orange-500'
+      }
+      if (rating < 8.4) {
+        return 'bg-yellow-500'
+      }
+      if (rating >= 8) {
+        return 'bg-green-500'
+      }
+    }
+    return { ratingsPerEpisodeNb, setBgCell }
   },
 })
 </script>

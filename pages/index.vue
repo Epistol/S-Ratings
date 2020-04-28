@@ -4,6 +4,13 @@
 
     <template v-if="showDetails && !loading">Seasons : {{ showDetails.number_of_seasons }}</template>
     <template v-if="showDetails && !loading">Episodes : {{ showDetails.number_of_episodes }}</template>
+
+    <br />
+
+    <p>
+      Seasons ->
+      Episodes ↓
+    </p>
     <div v-if="seasons.length && showDetails" class="w-full max-w-screen-xl mx-auto px-6">
       <TableBase
         :infos="showDetails"
