@@ -6,7 +6,7 @@ import { Network } from './network'
 import { Company } from './company'
 import { Season } from './season'
 
-export default interface TvShowDetails extends TvShow {
+export interface TvShowDetails extends TvShow {
   created_by: Person[]
   episode_run_time: number[]
   genres: Genre[];
