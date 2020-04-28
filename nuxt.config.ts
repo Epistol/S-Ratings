@@ -3,6 +3,7 @@ const config: Configuration = {
   server: {
     port: 8081,
   },
+  srcDir: './src/',
   buildModules: ['@nuxt/typescript-build', '@nuxtjs/tailwindcss'],
   plugins: [
     '~/plugins/composition-api.ts',
