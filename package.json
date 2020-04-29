@@ -1,6 +1,6 @@
 {
   "name": "simpsons-ratings",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Simpsons rating dashboard",
   "author": "Michaël Lebeau",
   "private": true,
