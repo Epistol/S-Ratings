@@ -61,7 +61,6 @@ export default defineComponent({
     props.seasons.map((season: any) => {
       fields.push({ key: season.seasonNb, sortable: true })
     })
-    console.log('setup -> fields', fields)
 
     const setRatingsPerEpisodeNb = () => {
       for (

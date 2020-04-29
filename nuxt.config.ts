@@ -37,6 +37,9 @@ const config: Configuration = {
     ['nuxt-fontawesome', {
       component: 'fa',
     }],
+    ['@nuxtjs/google-analytics', {
+      id: process.env.NUXT_ENV_GA,
+    }],
   ],
   bootstrapVue: {
     componentPlugins: [
