@@ -1,11 +1,21 @@
 <template>
   <div class="w-full max-w-screen-xl mx-auto px-2">
-    <logo />
+    <header class="relative z-10 flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <logo />
+      <div class="flex text-sm leading-5">
+        <a
+          href="https://github.com/Epistol/S-Ratings"
+          class="font-medium text-gray-500 hover:text-gray-900"
+        >
+          <fa :icon="['fab', 'fa-github']" />Github
+        </a>
+      </div>
+    </header>
 
     <template v-if="showDetails && !loading">Seasons : {{ showDetails.number_of_seasons }}</template>
     <template v-if="showDetails && !loading">Episodes : {{ showDetails.number_of_episodes }}</template>
 
-    <br>
+    <br />
     <p>
       Seasons ->
       Episodes ↓

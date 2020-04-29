@@ -34,6 +34,9 @@ const config: Configuration = {
       },
     ],
     'bootstrap-vue/nuxt',
+    ['nuxt-fontawesome', {
+      component: 'fa',
+    }],
   ],
   bootstrapVue: {
     componentPlugins: [
