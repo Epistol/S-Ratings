@@ -31,7 +31,7 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
       },
     )
     state.showDetails = data
-    state.loading = false
+
     if (!state.seasons.length) {
       state.seasons = await getShowRatings()
       state.maxNbEpisodesPerSeason = state.seasons
@@ -41,6 +41,7 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
           return max > val ? max : val
         })
     }
+    state.loading = false
   }
 
   const getShowRatings = async () => {

@@ -4,29 +4,30 @@
       <div
         class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg"
       >
-        <table class="min-w-full">
+        <v-simple-table dense fixed-header class="min-w-full" :loading="loading">
           <thead>
             <tr>
-              <template v-for="field in fields">
-                <th :key="field.key">{{ field.key }}</th>
+              <template v-for="header in headers">
+                <th :key="header.value" class="bg-gray-50">{{ header.text }}</th>
               </template>
             </tr>
           </thead>
           <tbody v-if="ratingsPerEpisodeNb" class="bg-white">
-            <template v-for="ratingPerEpisodeNb in ratingsPerEpisodeNb">
-              <tr :key="ratingPerEpisodeNb.episode">
-                <th>{{ ratingPerEpisodeNb.episode + 1 }}</th>
-                <template v-for="(rating, index) in ratingPerEpisodeNb.ratings">
+            <template v-for="item in items">
+              <tr :key="item.episodeNb">
+                <th>{{ item.episodeNb + 1 }}</th>
+                <template v-for="(data, index) in item">
                   <td
+                    v-if="index !== 'episodeNb'"
                     :key="index"
                     class="p-1 whitespace-no-wrap border-b border-gray-200"
-                    :class="setBgCell(rating)"
-                  >{{ rating !== null ? rating.toFixed(1) : rating }}</td>
+                    :class="getColor(data)"
+                  >{{ data !== null ? data.toFixed(1) : data }}</td>
                 </template>
               </tr>
             </template>
           </tbody>
-        </table>
+        </v-simple-table>
       </div>
     </div>
   </div>
@@ -56,33 +57,64 @@ export default defineComponent({
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {
+    let loading: boolean = false
     const ratingsPerEpisodeNb: any = []
-    const fields: any = [{ key: '', sortable: false }]
-    props.seasons.map((season: any) => {
-      fields.push({ key: season.seasonNb, sortable: true })
-    })
 
-    const setRatingsPerEpisodeNb = () => {
-      for (
-        let episode = 0;
-        episode <= props.maxNbEpisodesPerSeason;
-        episode++
-      ) {
-        const ratings = props.seasons.map((season: any) => {
-          return season.votesAvg[episode] ? season.votesAvg[episode] : null
+    const headers: any = [
+      {
+        text: 'Episode',
+        align: 'start',
+        sortable: false,
+        value: 'episodeNb',
+      },
+    ]
+
+    const setHeaders = () => {
+      props.seasons.map((season: any) => {
+        headers.push({
+          text: season.seasonNb,
+          value: season.seasonNb.toString(),
+          sortable: true,
+        })
+      })
+    }
+
+    setHeaders()
+
+    // For each episode number, we set all the ratings of each season
+    const setRatingsPerEpisodeNb = (episode: number = 0) => {
+      loading = true
+      let episodeNb = episode
+      const ratingsObj = []
+      // for each episode Nb, we will load the ratings of the episode NB from all seasons
+      for (episodeNb; episodeNb <= props.maxNbEpisodesPerSeason; episodeNb++) {
+        const episodeObj: any = { episodeNb }
+
+        props.seasons.map((season: any) => {
+          episodeObj[season.seasonNb] = season.votesAvg[episodeNb]
+            ? season.votesAvg[episodeNb]
+            : null
         })
 
-        ratingsPerEpisodeNb.push({
-          episode,
-          ratings,
+        ratingsObj.push({
+          episodeObj,
         })
       }
-    }
-    setRatingsPerEpisodeNb()
 
-    const setBgCell = (rating: number) => {
+      loading = false
+      return ratingsObj.map((obj: any) => {
+        return obj.episodeObj
+      })
+    }
+
+    const items = setRatingsPerEpisodeNb()
+
+    const getColor = (rating: number) => {
       if (rating === null) {
         return null
+      }
+      if (rating === 0) {
+        return 'bg-gray-500'
       }
       if (rating < 7) {
         return 'bg-red-500'
@@ -97,7 +129,8 @@ export default defineComponent({
         return 'bg-green-500'
       }
     }
-    return { ratingsPerEpisodeNb, setBgCell, fields }
+
+    return { ratingsPerEpisodeNb, getColor, headers, items, loading }
   },
 })
 </script>

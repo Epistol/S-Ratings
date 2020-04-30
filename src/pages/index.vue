@@ -1,41 +1,52 @@
 <template>
-  <div class="w-full max-w-screen-xl mx-auto px-2">
-    <header class="relative z-10 flex items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-      <logo />
-      <div class="flex text-sm leading-5">
-        <a
-          href="https://github.com/Epistol/S-Ratings"
-          class="font-medium text-gray-500 hover:text-gray-900"
-        >
-          <fa :icon="['fab', 'fa-github']" />Github
-        </a>
+  <v-app>
+    <v-app-bar app color="elevation-0" :hide-on-scroll="true">
+      <header-ts />
+    </v-app-bar>
+    <v-content>
+      <div class="w-full max-w-screen-xl mx-auto px-2">
+        <v-container fluid>
+          <v-row no-gutters>
+            <v-col cols="12" sm="12">
+              <div v-if="!loading">
+                <template v-if="showDetails">Seasons : {{ showDetails.number_of_seasons }}</template>
+                <template v-if="showDetails">Episodes : {{ showDetails.number_of_episodes }}</template>
+              </div>
+              <div v-else>
+                <v-progress-circular indeterminate color="primary" />
+              </div>
+            </v-col>
+            <v-col cols="12" sm="12">
+              <div v-if="seasons.length && showDetails" class="w-full max-w-screen-xl mx-auto px-4">
+                <TableBase
+                  :infos="showDetails"
+                  :seasons="seasons"
+                  :max-nb-episodes-per-season="maxNbEpisodesPerSeason"
+                />
+              </div>
+            </v-col>
+            <v-col cols="12" sm="12">
+              <show-infos />
+            </v-col>
+          </v-row>
+
+          <br />
+          <!-- <p>
+            Seasons ->
+            Episodes ↓
+          </p>-->
+        </v-container>
       </div>
-    </header>
-
-    <template v-if="showDetails && !loading">Seasons : {{ showDetails.number_of_seasons }}</template>
-    <template v-if="showDetails && !loading">Episodes : {{ showDetails.number_of_episodes }}</template>
-
-    <br />
-    <p>
-      Seasons ->
-      Episodes ↓
-    </p>
-    <div v-if="seasons.length && showDetails" class="w-full max-w-screen-xl mx-auto px-4">
-      <TableBase
-        :infos="showDetails"
-        :seasons="seasons"
-        :max-nb-episodes-per-season="maxNbEpisodesPerSeason"
-      />
-    </div>
-  </div>
+    </v-content>
+  </v-app>
 </template>
 
 <script lang="ts">
 import { defineComponent, Ref } from '@vue/composition-api'
 
-import Logo from '~/components/Logo.vue'
-// import TableBase from '~/components/Table_base.vue'
+import Header from '~/components/Header.vue'
 import TableBase from '~/components/Table_base.vue'
+import ShowInfos from '~/components/ShowInfos.vue'
 import useMovieApi from '@/composables/use-movie-api'
 
 import { TvShowDetails } from '@/types/tv-show-details'
@@ -48,8 +59,9 @@ interface movieApi {
 export default defineComponent({
   name: 'Index',
   components: {
-    Logo,
     TableBase,
+    'header-ts': Header,
+    ShowInfos,
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {

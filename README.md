@@ -6,7 +6,7 @@
 
 ## Introduction
 It's a little experiment made with the TMDB API to show all the ratings of every episode of the Simpsons.
-Tech used : TMDB, Nuxt, Typescript
+<br>Tech used : TMDB, Nuxt, Typescript, Composition API, Tailwind
 
 ## Screenshot
 

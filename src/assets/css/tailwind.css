@@ -7,3 +7,7 @@
 .container {
   @apply min-h-screen flex justify-center items-center text-center mx-auto;
 }
+
+body {
+  @apply bg-gray-200
+}

@@ -25,6 +25,7 @@
       ]
     },
     "types": [
+      "~/types",
       "@types/node",
       "@nuxt/types",
       "@nuxtjs/axios"
