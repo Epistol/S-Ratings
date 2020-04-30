@@ -4,7 +4,7 @@ const config: Configuration = {
     port: 8081,
   },
   srcDir: './src/',
-  buildModules: ['@nuxt/typescript-build', '@nuxtjs/tailwindcss', '@aceforth/nuxt-netlify'],
+  buildModules: ['@nuxt/typescript-build', '@nuxtjs/tailwindcss', '@aceforth/nuxt-netlify', '@nuxtjs/vuetify'],
   plugins: [
     '~/plugins/composition-api.ts',
   ],
@@ -15,7 +15,6 @@ const config: Configuration = {
     '@nuxtjs/axios',
     '@nuxtjs/dotenv',
     '@nuxtjs/pwa',
-    '@nuxtjs/vuetify',
     [
       'nuxt-i18n',
       {

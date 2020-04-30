@@ -16,6 +16,9 @@
                 <v-progress-circular indeterminate color="primary" />
               </div>
             </v-col>
+            <v-col cols="2">
+              <p>Seasons -> Episodes ↓</p>
+            </v-col>
             <v-col cols="12" sm="12">
               <div v-if="seasons.length && showDetails" class="w-full max-w-screen-xl mx-auto px-4">
                 <TableBase

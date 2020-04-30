@@ -1,5 +1,5 @@
 <template>
-  <div />
+  <div class="text-center" />
 </template>
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
@@ -9,7 +9,8 @@ export default defineComponent({
   components: {},
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {
-    return {}
+    const dialog: boolean = false
+    return { dialog }
   },
 })
 </script>
