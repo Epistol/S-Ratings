@@ -4,7 +4,7 @@
       <div
         class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg"
       >
-        <v-simple-table dense fixed-header class="min-w-full" :loading="loading">
+        <v-simple-table  dense fixed-header class="min-w-full" :loading="loading">
           <thead>
             <tr>
               <template v-for="header in headers">
@@ -12,7 +12,7 @@
               </template>
             </tr>
           </thead>
-          <tbody v-if="ratingsPerEpisodeNb" class="bg-white">
+          <tbody v-if="ratingsPerEpisodeNb">
             <template v-for="item in items">
               <tr :key="item.episodeNb">
                 <th>{{ item.episodeNb + 1 }}</th>
@@ -20,7 +20,7 @@
                   <td
                     v-if="index !== 'episodeNb'"
                     :key="index"
-                    class="p-1 whitespace-no-wrap border-b border-gray-200"
+                    class="p-1 whitespace-no-wrap border-b border-gray-200 text-gray-900"
                     :class="getColor(data)"
                   >{{ data !== null ? data.toFixed(1) : data }}</td>
                 </template>

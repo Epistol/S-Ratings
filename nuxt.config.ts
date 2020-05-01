@@ -1,5 +1,7 @@
 import { Configuration } from '@nuxt/types/config'
+
 const config: Configuration = {
+  mode: 'universal',
   server: {
     port: 8081,
   },
@@ -33,7 +35,6 @@ const config: Configuration = {
         },
       },
     ],
-    'bootstrap-vue/nuxt',
     ['nuxt-fontawesome', {
       component: 'fa',
       imports: [
@@ -51,12 +52,6 @@ const config: Configuration = {
       id: process.env.NUXT_ENV_GA_ID || '',
     }],
   ],
-  bootstrapVue: {
-    componentPlugins: [
-      'TablePlugin',
-    ],
-    directivePlugins: ['VBPopoverPlugin', 'VBTooltipPlugin', 'VBScrollspyPlugin'],
-  },
 }
 
 export default config
