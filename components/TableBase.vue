@@ -4,7 +4,7 @@
       <div
         class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg"
       >
-        <v-simple-table  dense fixed-header class="min-w-full" :loading="loading">
+        <v-simple-table dense fixed-header class="min-w-full" :loading="loading">
           <thead>
             <tr>
               <template v-for="header in headers">

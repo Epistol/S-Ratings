@@ -1,5 +1,5 @@
 import { reactive, SetupContext, toRefs } from '@vue/composition-api'
-import State from '~/types/state'
+import State from '~/types/State'
 
 interface Options {
   ctx: SetupContext,
