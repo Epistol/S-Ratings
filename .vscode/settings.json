@@ -1,8 +1,0 @@
-{
-  "files.exclude": {
-    "node_modules": true,
-    ".nuxt": true,
-    ".github": true
-  },
-  "workspace.isHidden": true
-}
