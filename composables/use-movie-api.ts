@@ -68,6 +68,21 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
     return data
   }
 
+  const getEpisodeInfos = async (seasonNb: number, episodeNb: number) => {
+    if (seasonNb && episodeNb) {
+      const url = apiSelected === 'TMDB' ? (endpoint + tvShowId + '/' + seasonNb + '/' + episodeNb) : endpoint
+      // const { data } = await ctx.root.$axios.get(url,
+      //   {
+      //     params: {
+      //       api_key: apiSelected === 'TMDB' ? process.env.NUXT_ENV_TMDB_API : null,
+      //     },
+      //   },
+      // )
+      // return data
+    }
+  }
+
+
   if (state.showDetails === null) {
     getTvInfos()
   }
@@ -75,5 +90,6 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
   return {
     ...toRefs(state),
     getSeasonRatings,
+    getEpisodeInfos
   }
 }

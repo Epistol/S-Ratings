@@ -17,12 +17,13 @@
               <tr :key="item.episodeNb">
                 <th>{{ item.episodeNb + 1 }}</th>
                 <template v-for="(data, index) in item">
-                  <td
+                  <cell
                     v-if="index !== 'episodeNb'"
                     :key="index"
-                    class="p-1 whitespace-no-wrap border-b border-gray-200 text-gray-900"
-                    :class="getColor(data)"
-                  >{{ data !== null ? data.toFixed(1) : data }}</td>
+                    :data="data"
+                    :index="index"
+                    :episode="item.episodeNb + 1"
+                  ></cell>
                 </template>
               </tr>
             </template>
@@ -36,6 +37,7 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
 import HeadCell from '~/components/Table/HeadCell.vue'
+import Cell from '~/components/Table/Cell.vue'
 
 interface Season {
   infos: Object
@@ -47,6 +49,7 @@ export default defineComponent({
   name: 'tableBase',
   components: {
     HeadCell,
+    Cell,
   },
   props: {
     infos: {
