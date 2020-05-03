@@ -1,5 +1,4 @@
 <template>
-  <!-- <th :key="cellData.value" class="hover:bg-gray-600 cursor-pointer" @click="dialog = !dialog">{{ cellData.text }}</th> -->
   <v-dialog v-model="dialog" scrollable width="80%" class="overflow-y-hidden">
     <template v-slot:activator="{ dialog }">
       <td
@@ -67,10 +66,10 @@ export default defineComponent({
     let dialog = ref<boolean>(false)
 
     const toggleDialog = async () => {
+      const { getEpisodeInfos } = useMovieApi({ ctx, apiSelected })
       dialog.value = !dialog.value
       if (props.episodeNb && dialog.value === true) {
-        // const { getEpisodeInfos } = useMovieApi({ ctx, apiSelected })
-        // apiData = await getEpisodeInfos(cellIndex.value, props.episodeNb)
+        apiData = await getEpisodeInfos(cellIndex.value, props.episodeNb)
       }
     }
     const getColor = (rating: number) => {
