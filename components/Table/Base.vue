@@ -8,7 +8,7 @@
           <thead>
             <tr>
               <template v-for="header in headers">
-                <th :key="header.value" class="bg-gray-50">{{ header.text }}</th>
+                <head-cell :key="header.value" :data="header"></head-cell>
               </template>
             </tr>
           </thead>
@@ -35,6 +35,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api'
+import HeadCell from '~/components/Table/HeadCell.vue'
 
 interface Season {
   infos: Object
@@ -44,6 +45,9 @@ interface Season {
 
 export default defineComponent({
   name: 'tableBase',
+  components: {
+    HeadCell,
+  },
   props: {
     infos: {
       default: null,
@@ -75,6 +79,7 @@ export default defineComponent({
           text: season.seasonNb,
           value: season.seasonNb.toString(),
           sortable: true,
+          infos: season.infos,
         })
       })
     }

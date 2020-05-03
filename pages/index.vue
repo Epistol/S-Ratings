@@ -40,7 +40,7 @@
 <script lang="ts">
 import { defineComponent, Ref } from '@vue/composition-api'
 
-import TableBase from '~/components/TableBase.vue'
+import TableBase from '~/components/Table/Base.vue'
 import useMovieApi from '@/composables/use-movie-api'
 
 // interface movieApi {
