@@ -5,9 +5,9 @@
       <th class="hover:bg-gray-600 cursor-pointer" @click="toggleDialog()">{{ cellData.text }}</th>
     </template>
     <v-card
-      v-if="cellData.infos"
+      v-if="cellData.poster_path"
       @click="toggleDialog()"
-      :id="cellData.infos.id"
+      :id="cellData.id"
       class="overflow-y-hidden"
     >
       <v-row justify="space-between">
@@ -15,13 +15,13 @@
           <v-img
             class="white--text align-end"
             contain
-            :src="'https://image.tmdb.org/t/p/w500/' + cellData.infos.poster_path"
+            :src="'https://image.tmdb.org/t/p/w500' + cellData.poster_path"
           ></v-img>
         </v-col>
 
         <v-col cols="8" class>
           <v-card-text class="text--primary" max-height="300px">
-            <div v-if="cellData.infos.overview">{{cellData.infos.overview}}</div>
+            <div v-if="cellData.overview">{{cellData.overview}}</div>
             <div v-else>No infos provided yet</div>
           </v-card-text>
         </v-col>
@@ -42,10 +42,12 @@ export default defineComponent({
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {
-    const cellData = reactive(props.data)
+    const cellData: any = reactive(props.data)
     let dialog = ref<boolean>(false)
     const toggleDialog = () => {
-      dialog.value = !dialog.value
+      if (cellData && cellData?.poster_path) {
+        dialog.value = !dialog.value
+      }
     }
     return { cellData, dialog, toggleDialog }
   },

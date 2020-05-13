@@ -12,9 +12,9 @@
               </template>
             </tr>
           </thead>
-          <tbody v-if="ratingsPerEpisodeNb">
-            <template v-for="item in items">
-              <tr :key="item.episodeNb">
+          <tbody>
+            <template v-for="(item,key) in items">
+              <tr :key="key">
                 <th>{{ item.episodeNb + 1 }}</th>
                 <template v-for="(data, index) in item">
                   <cell
@@ -35,15 +35,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from '@vue/composition-api'
+import { defineComponent, onMounted, computed } from '@vue/composition-api'
 import HeadCell from '~/components/Table/HeadCell.vue'
 import Cell from '~/components/Table/Cell.vue'
-
-interface Season {
-  infos: Object
-  seasonNb: number
-  votesAvg: object
-}
 
 export default defineComponent({
   name: 'tableBase',
@@ -52,9 +46,6 @@ export default defineComponent({
     Cell,
   },
   props: {
-    infos: {
-      default: null,
-    },
     seasons: {
       default: [],
     },
@@ -64,8 +55,10 @@ export default defineComponent({
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {
+    const cSeasons = computed(() => props.seasons)
+    const cMaxEpisodesNb = computed(() => props.maxNbEpisodesPerSeason)
+
     let loading: boolean = false
-    const ratingsPerEpisodeNb: any = []
 
     const headers: any = [
       {
@@ -77,17 +70,15 @@ export default defineComponent({
     ]
 
     const setHeaders = () => {
-      props.seasons.map((season: any) => {
+      cSeasons.value.map((season: any) => {
         headers.push({
-          text: season.seasonNb,
-          value: season.seasonNb.toString(),
+          text: season.season_number,
+          value: season.season_number.toString(),
           sortable: true,
-          infos: season.infos,
+          ...season,
         })
       })
     }
-
-    setHeaders()
 
     // For each episode number, we set all the ratings of each season
     const setRatingsPerEpisodeNb = (episode: number = 0) => {
@@ -95,11 +86,11 @@ export default defineComponent({
       let episodeNb = episode
       const ratingsObj = []
       // for each episode Nb, we will load the ratings of the episode NB from all seasons
-      for (episodeNb; episodeNb <= props.maxNbEpisodesPerSeason; episodeNb++) {
+      for (episodeNb; episodeNb <= cMaxEpisodesNb.value; episodeNb++) {
         const episodeObj: any = { episodeNb }
 
         props.seasons.map((season: any) => {
-          episodeObj[season.seasonNb] = season.votesAvg[episodeNb]
+          episodeObj[season.season_number] = season.votesAvg[episodeNb]
             ? season.votesAvg[episodeNb]
             : null
         })
@@ -114,8 +105,6 @@ export default defineComponent({
         return obj.episodeObj
       })
     }
-
-    const items = setRatingsPerEpisodeNb()
 
     const getColor = (rating: number) => {
       if (rating === null) {
@@ -138,7 +127,10 @@ export default defineComponent({
       }
     }
 
-    return { ratingsPerEpisodeNb, getColor, headers, items, loading }
+    setHeaders()
+    const items = setRatingsPerEpisodeNb()
+
+    return { getColor, headers, items, loading, cSeasons }
   },
 })
 </script>
