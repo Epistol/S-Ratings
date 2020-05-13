@@ -12,18 +12,26 @@
               </template>
             </tr>
           </thead>
-          <tbody>
-            <template v-for="(item,key) in items">
+          <tbody v-if="cSeasons">
+            <template v-for="(ratings,key) in episodesRatings">
               <tr :key="key">
-                <th>{{ item.episodeNb + 1 }}</th>
-                <template v-for="(data, index) in item">
-                  <cell
-                    v-if="index !== 'episodeNb'"
-                    :key="index"
-                    :data="data"
-                    :index="index"
-                    :episode="item.episodeNb + 1"
-                  ></cell>
+                <th>{{ ratings.episodeNb + 1 }}</th>
+                <template v-for="(episodeVotes, season) in ratings">
+                  {{episodeVotes}}
+                  <!-- <v-tooltip :key="season" v-model="dialog" top>
+                    <template v-slot:activator="{ on }">
+                       <cell
+                        v-on="on"
+                        v-if="season !== 'episodeNb'"
+                        :key="season"
+                        :data="{...props.season[season].episodes[ratings.episodeNb], episodeVotes}"
+                        :index="season"
+                        :episodeNb="ratings.episodeNb + 1"
+                        @click="dialog = !dialog"
+                      ></cell>
+                    </template>
+                    <span>Programmatic tooltip</span>
+                  </v-tooltip>-->
                 </template>
               </tr>
             </template>
@@ -35,9 +43,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed } from '@vue/composition-api'
+import { defineComponent, onMounted, computed, ref } from '@vue/composition-api'
 import HeadCell from '~/components/Table/HeadCell.vue'
 import Cell from '~/components/Table/Cell.vue'
+import useMovieApi from '@/composables/use-movie-api'
 
 export default defineComponent({
   name: 'tableBase',
@@ -56,7 +65,9 @@ export default defineComponent({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {
     const cSeasons = computed(() => props.seasons)
+    console.log('setup -> cSeasons', cSeasons)
     const cMaxEpisodesNb = computed(() => props.maxNbEpisodesPerSeason)
+    const apiSelected = process.env.API_CHOICE ? process.env.API_CHOICE : 'TMDB'
 
     let loading: boolean = false
 
@@ -81,29 +92,32 @@ export default defineComponent({
     }
 
     // For each episode number, we set all the ratings of each season
-    const setRatingsPerEpisodeNb = (episode: number = 0) => {
+    // Because v-table can't do otherwise
+    const setRatingsPerEpisodeNb = () => {
       loading = true
-      let episodeNb = episode
-      const ratingsObj = []
-      // for each episode Nb, we will load the ratings of the episode NB from all seasons
-      for (episodeNb; episodeNb <= cMaxEpisodesNb.value; episodeNb++) {
-        const episodeObj: any = { episodeNb }
+      const episodesObj: any = []
+      // ex : [{episodeNb : 0}, {episodeNb: 1}]
+      for (
+        let episodeNb = 0;
+        episodeNb <= props.maxNbEpisodesPerSeason;
+        episodeNb++
+      ) {
+        episodesObj.push({ episodeNb })
 
-        props.seasons.map((season: any) => {
-          episodeObj[season.season_number] = season.votesAvg[episodeNb]
-            ? season.votesAvg[episodeNb]
-            : null
-        })
-
-        ratingsObj.push({
-          episodeObj,
+        // Set all votes of episodes for a season
+        cSeasons.value.map((season: any) => {
+          // If the season episodes contain the episode number, add it to the episode Nb array
+          episodesObj[episodeNb][season.season_number] = season.episodes.filter(
+            (episode: any) => episode.episode_number === episodeNb + 1
+          )
         })
       }
 
       loading = false
-      return ratingsObj.map((obj: any) => {
-        return obj.episodeObj
-      })
+      return episodesObj
+      // return ratingsObj.map((obj: any) => {
+      //   return obj.episodeObj
+      // })
     }
 
     const getColor = (rating: number) => {
@@ -128,9 +142,27 @@ export default defineComponent({
     }
 
     setHeaders()
-    const items = setRatingsPerEpisodeNb()
+    const episodesRatings = setRatingsPerEpisodeNb()
+    console.log('setup -> episodesRatings', episodesRatings)
 
-    return { getColor, headers, items, loading, cSeasons }
+    let dialog = ref<boolean>(false)
+    const toggleDialog = async (episodeNb: any) => {
+      const { getEpisodeInfos } = useMovieApi({ ctx, apiSelected })
+      dialog.value = !dialog.value
+      // if (episodeNb && dialog.value === true) {
+      //   apiData = await getEpisodeInfos(cellIndex.value, props.episodeNb)
+      // }
+    }
+
+    return {
+      getColor,
+      headers,
+      episodesRatings,
+      loading,
+      cSeasons,
+      dialog,
+      toggleDialog,
+    }
   },
 })
 </script>
