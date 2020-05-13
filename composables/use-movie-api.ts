@@ -18,7 +18,7 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
   })
 
   const globalState: globalState = reactive({
-    showDetails: {}, // easy to forget if we remove useProduct
+    showDetails: {},
     maxNbEpisodesPerSeason: 0,
     seasons: {}
   })

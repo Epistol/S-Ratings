@@ -39,6 +39,9 @@ export default {
     '@nuxt/typescript-build',
     '@nuxtjs/vuetify',
     '@nuxtjs/tailwindcss',
+    ['@nuxtjs/google-analytics', {
+      id: process.env.NUXT_ENV_GA_ID || '',
+    }]
   ],
   /*
   ** Nuxt.js modules
@@ -57,13 +60,14 @@ export default {
           icons: ['fas'],
         },
         {
+          set: '@fortawesome/free-regular-svg-icons',
+          icons: ['far'],
+        },
+        {
           set: '@fortawesome/free-brands-svg-icons',
           icons: ['fab', 'faGithub'],
         },
       ],
-    }],
-    ['@nuxtjs/google-analytics', {
-      id: process.env.NUXT_ENV_GA_ID || '',
     }],
   ],
   /*
@@ -85,6 +89,15 @@ export default {
           primary: colors.blue.darken2,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3
+        },
+        light: {
+          primary: colors.blue.lighten1,
+          accent: colors.grey.lighten1,
+          secondary: colors.amber.lighten1,
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
