@@ -1,19 +1,16 @@
 <p align="center"><img width="250" src="assets/images/logo.svg" alt="logo"></p>
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/04096c9e-e516-492e-943a-50faefc3ea93/deploy-status)](https://app.netlify.com/sites/sratings/deploys)
-
 > Simpsons rating dashboard
 
 ## Introduction
 It's a little experiment made with the TMDB API to show all the ratings of every episode of the Simpsons.
-<br>Tech used : TMDB, Nuxt, Typescript, Composition API, Tailwind
+<br>Tech used : TMDB, Nuxt, Typescript, Composition API, Tailwind, Vuetify
 
 ## Screenshot
 
 <p align="center"><img width="750" src="assets/images/screenshot.png" alt="screenshot"></p>
 
 ## Build Setup
-If you want to build it locally, you'll need to set your own API key into the .env file and follow theses instructions :
 
 ```bash
 # install dependencies

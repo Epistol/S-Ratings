@@ -6,6 +6,7 @@
 */
 module.exports = {
   theme: {},
+  important: true,
   variants: {},
   plugins: [],
   purge: {
