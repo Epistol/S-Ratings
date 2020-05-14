@@ -8,14 +8,19 @@
           </div>
           <v-row no-gutters>
             <v-col cols="12" sm="12">
-              <div v-if="showDetails">
+              <div v-if="showDetails" class="pb-4">
                 <div class="text-lg" v-if="showDetails">Show name : {{ showDetails.original_name }}</div>
                 <div v-if="showDetails">Seasons : {{ showDetails.number_of_seasons }}</div>
                 <div v-if="showDetails">Episodes : {{ showDetails.number_of_episodes }}</div>
               </div>
             </v-col>
-            <v-col cols="2">
-              <p>Seasons -> Episodes ↓</p>
+            <v-col cols="6">
+              <div>
+                <p>
+                  Seasons are on the horizontal axis ->
+                  <br />Episodes are on the vertical axis ↓
+                </p>
+              </div>
             </v-col>
             <v-col cols="12" sm="12">
               <div
@@ -23,6 +28,9 @@
                 class="w-full max-w-screen-xl mx-auto px-4"
               >
                 <TableBase :seasons="seasons" :max-nb-episodes-per-season="maxNbEpisodesPerSeason" />
+              </div>
+              <div v-else>
+                <v-progress-circular indeterminate color="primary" />
               </div>
             </v-col>
             <!-- <v-col cols="12" sm="12">

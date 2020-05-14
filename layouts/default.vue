@@ -1,6 +1,50 @@
 <template>
   <v-app :dark="goDark">
+    <v-navigation-drawer v-model="drawer" app>
+      <v-list dense>
+        <v-list-item link href="https://github.com/Epistol/S-Ratings">
+          <v-list-item-action>
+            <fa :icon="['fab', 'github']" />
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Github</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item link href="https://twitter.com/StolEpi">
+          <v-list-item-action>
+            <fa :icon="['fab', 'twitter']" />
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Twitter</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item class="d-flex justify-space-around items-center justify-end mt-4">
+          <about />
+        </v-list-item>
+      </v-list>
+      <template v-slot:append>
+        <div class="pa-2">
+          <v-btn
+            class="visible lg:invisible"
+            v-cloak
+            text
+            color="primary"
+            @click="goDark = !goDark"
+          >
+            <!-- <v-switch class="justify-space-around" v-model="goDark"> -->
+            <template v-if="!goDark">
+              <fa :icon="['far', 'moon']" />
+            </template>
+            <template v-else>
+              <fa :icon="['fas', 'sun']" />
+            </template>
+          </v-btn>
+        </div>
+      </template>
+    </v-navigation-drawer>
+
     <v-app-bar :clipped-left="clipped" fixed app>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="visible lg:invisible"></v-app-bar-nav-icon>
       <v-toolbar dense flat color="elevation-0" class="bg-transparent">
         <v-row>
           <v-col cols="2" />
@@ -19,7 +63,13 @@
             </v-toolbar-title>
           </v-col>
           <v-col cols="2" class="d-flex justify-space-around items-center justify-end">
-            <v-btn v-cloak text color="primary" @click="goDark = !goDark">
+            <v-btn
+              class="invisible lg:visible"
+              v-cloak
+              text
+              color="primary"
+              @click="goDark = !goDark"
+            >
               <!-- <v-switch class="justify-space-around" v-model="goDark"> -->
               <template v-if="!goDark">
                 <fa :icon="['far', 'moon']" />
@@ -28,8 +78,16 @@
                 <fa :icon="['fas', 'sun']" />
               </template>
             </v-btn>
-            <about />
-            <v-btn v-cloak href="https://github.com/Epistol/S-Ratings" text color="primary">
+            <div class="invisible lg:visible">
+              <about />
+            </div>
+            <v-btn
+              class="invisible lg:visible"
+              v-cloak
+              href="https://github.com/Epistol/S-Ratings"
+              text
+              color="primary"
+            >
               <fa :icon="['fab', 'github']" />
               <span class="pl-1">Github</span>
             </v-btn>
@@ -43,8 +101,8 @@
       </v-container>
     </v-content>
 
-    <v-footer :fixed="fixed" app>
-      <span>&copy; {{ new Date().getFullYear() }}</span>
+    <v-footer>
+      <span>&copy; {{ new Date().getFullYear() }} - Epistol</span>
     </v-footer>
   </v-app>
 </template>
@@ -58,9 +116,8 @@ export default defineComponent({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx: any) {
     const clipped = false
-    const drawer = false
-    const fixed = false
     let goDark = ref(true)
+    let drawer = ref(false)
 
     watch(goDark, (value, prevValue) => {
       ctx.root.$vuetify.theme.dark = value
@@ -85,7 +142,6 @@ export default defineComponent({
     return {
       clipped,
       drawer,
-      fixed,
       items,
       miniVariant,
       right,

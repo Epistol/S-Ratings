@@ -1,11 +1,11 @@
 <template>
-  <!-- <td v-if="cellData === null" class="p-1 text-gray-900 whitespace-no-wrap"></td>
+  <td v-if="cellData.vote_average === null" class="p-1 text-gray-900 whitespace-no-wrap"></td>
   <td
     v-else
     class="p-1 text-gray-900 whitespace-no-wrap"
-    :class="cellData !== undefined ? getColor(cellData) : '' "
-  >{{ cellData !== undefined ? cellData.toFixed(1) : '' }}</td>
-</template> -->
+    :class="cellData.vote_average !== undefined ? getColor(cellData.vote_average) : '' "
+  >{{ cellData.vote_average !== undefined ? cellData.vote_average.toFixed(1) : '' }}</td>
+</template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from '@vue/composition-api'
@@ -27,7 +27,6 @@ export default defineComponent({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {
     const cellData = ref<any>(props.data)
-    console.log("setup -> cellData", cellData.value)
     const cellIndex = ref<any>(props.index)
     let apiData = reactive({})
 

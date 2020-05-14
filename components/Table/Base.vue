@@ -16,22 +16,18 @@
             <template v-for="(ratings,key) in episodesRatings">
               <tr :key="key">
                 <th>{{ ratings.episodeNb + 1 }}</th>
-                <template v-for="(episodeVotes, season) in ratings">
-                  {{episodeVotes}}
-                  <!-- <v-tooltip :key="season" v-model="dialog" top>
-                    <template v-slot:activator="{ on }">
-                       <cell
-                        v-on="on"
-                        v-if="season !== 'episodeNb'"
-                        :key="season"
-                        :data="{...props.season[season].episodes[ratings.episodeNb], episodeVotes}"
-                        :index="season"
-                        :episodeNb="ratings.episodeNb + 1"
-                        @click="dialog = !dialog"
-                      ></cell>
-                    </template>
-                    <span>Programmatic tooltip</span>
-                  </v-tooltip>-->
+                <template v-for="(episodes) in ratings">
+                  <template v-for="(episode, season) in episodes">
+                    <cell
+                      v-on="on"
+                      v-if="season !== 'episodeNb'"
+                      :key="season"
+                      :data="episode"
+                      :index="season"
+                      :episodeNb="ratings.episodeNb + 1"
+                      @click="dialog = !dialog"
+                    ></cell>
+                  </template>
                 </template>
               </tr>
             </template>
@@ -65,7 +61,6 @@ export default defineComponent({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setup(props, ctx) {
     const cSeasons = computed(() => props.seasons)
-    console.log('setup -> cSeasons', cSeasons)
     const cMaxEpisodesNb = computed(() => props.maxNbEpisodesPerSeason)
     const apiSelected = process.env.API_CHOICE ? process.env.API_CHOICE : 'TMDB'
 
@@ -143,7 +138,6 @@ export default defineComponent({
 
     setHeaders()
     const episodesRatings = setRatingsPerEpisodeNb()
-    console.log('setup -> episodesRatings', episodesRatings)
 
     let dialog = ref<boolean>(false)
     const toggleDialog = async (episodeNb: any) => {
