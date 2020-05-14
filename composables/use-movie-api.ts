@@ -1,5 +1,5 @@
 import { reactive, SetupContext, toRefs } from '@vue/composition-api'
-import State from '~/types/State'
+import { apiState, globalState } from '~/types/State'
 
 interface Options {
   ctx: SetupContext,
@@ -7,22 +7,25 @@ interface Options {
 }
 
 export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
+  // Setting up the endpoint with TMDB for now
   const endpoint: string = apiSelected === 'TMDB' ? 'https://api.themoviedb.org/3/tv/' : ''
-
-  const state: State = reactive({
-    error: null,
-    loading: false,
-    promise: null,
-    showDetails: null,
-    seasons: [],
-    maxNbEpisodesPerSeason: 0,
-  })
-
   const tvShowId = apiSelected === 'TMDB' ? '456-the-simpsons' : 'simpsons'
 
-  const getTvInfos = async () => {
+  const apiState: apiState = reactive({
+    response: [],
+    error: null,
+    fetching: false
+  })
+
+  const globalState: globalState = reactive({
+    showDetails: {},
+    maxNbEpisodesPerSeason: 0,
+    seasons: {}
+  })
+
+  const loadShowInfos = async () => {
     const url = apiSelected === 'TMDB' ? (endpoint + tvShowId) : endpoint
-    state.loading = true
+    apiState.fetching = true
     const { data } = await ctx.root.$axios.get(url,
       {
         params: {
@@ -30,33 +33,24 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
         },
       },
     )
-    state.showDetails = data
-
-    if (!state.seasons.length) {
-      state.seasons = await getShowRatings()
-      state.maxNbEpisodesPerSeason = state.seasons
-        .map((data: any) => data.infos.episodes)
-        .map((seasons: any) => seasons.length)
-        .reduce((max: any, val: any) => {
-          return max > val ? max : val
-        })
-    }
-    state.loading = false
+    globalState.showDetails = data
+    await setSeasonRatings()
+    await getMaxNbEpisodesPerSeason()
+    apiState.fetching = false
   }
 
-  const getShowRatings = async () => {
-    const ratings = []
-    if (state.showDetails) {
-      for (let seasonNb = 1; seasonNb <= state.showDetails.number_of_seasons; seasonNb++) {
-        const infos = await getSeasonRatings(seasonNb)
-        const votesAvg = infos.episodes.map((data: any) => data.vote_average)
-        ratings.push({ seasonNb, votesAvg, infos })
-      }
+  // Loading ratings array in the form of [ {seasonNb: 1, vote_avg: 7.3, seasonData: {...infos}}]
+  const setSeasonRatings = async (numberOfSeasons: number = 31) => {
+    const seasons = []
+    for (let seasonNb = 1; seasonNb <= numberOfSeasons; seasonNb++) {
+      const seasonData = await getSeasonData(seasonNb)
+      const votesAvg = seasonData.episodes.map((episode: any) => episode.vote_average)
+      seasons.push({ ...seasonData, votesAvg })
     }
-    return ratings
+    globalState.seasons = seasons
   }
 
-  const getSeasonRatings = async (seasonNb: number) => {
+  const getSeasonData = async (seasonNb: number) => {
     const url = apiSelected === 'TMDB' ? (endpoint + tvShowId + '/season/' + seasonNb) : endpoint
     const { data } = await ctx.root.$axios.get(url,
       {
@@ -68,12 +62,35 @@ export default function useMovieApi({ ctx, apiSelected = 'TMDB' }: Options) {
     return data
   }
 
-  if (state.showDetails === null) {
-    getTvInfos()
+  const getMaxNbEpisodesPerSeason = async () => {
+    if (globalState.seasons) {
+      globalState.maxNbEpisodesPerSeason = globalState.seasons
+        .map((season: any) => season.episodes)
+        .map((episodes: any) => episodes.length)
+        .reduce((max: any, val: any) => {
+          return max > val ? max : val
+        })
+    }
+  }
+
+  const getEpisodeInfos = async (seasonNb: number, episodeNb: number) => {
+    if (seasonNb && episodeNb) {
+      const url = apiSelected === 'TMDB' ? (endpoint + tvShowId + '/' + seasonNb + '/' + episodeNb) : endpoint
+      const { data } = await ctx.root.$axios.get(url,
+        {
+          params: {
+            api_key: apiSelected === 'TMDB' ? process.env.NUXT_ENV_TMDB_API : null,
+          },
+        })
+      return data
+    }
   }
 
   return {
-    ...toRefs(state),
-    getSeasonRatings,
+    ...toRefs(apiState),
+    ...toRefs(globalState),
+    getEpisodeInfos,
+    loadShowInfos,
+    getSeasonData,
   }
 }
