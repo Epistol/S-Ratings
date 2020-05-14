@@ -39,9 +39,6 @@ export default {
     '@nuxt/typescript-build',
     '@nuxtjs/vuetify',
     '@nuxtjs/tailwindcss',
-    ['@nuxtjs/google-analytics', {
-      id: process.env.NUXT_ENV_GA_ID || '',
-    }]
   ],
   /*
   ** Nuxt.js modules
@@ -52,6 +49,12 @@ export default {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
+    [
+      '@nuxtjs/google-gtag',
+      {
+        id: 'G-HFP90CVDCK'
+      }
+    ],
     ['nuxt-fontawesome', {
       component: 'fa',
       imports: [

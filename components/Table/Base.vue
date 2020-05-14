@@ -19,9 +19,8 @@
                 <template v-for="(episodes) in ratings">
                   <template v-for="(episode, season) in episodes">
                     <cell
-                      v-on="on"
                       v-if="season !== 'episodeNb'"
-                      :key="season"
+                      :key="episode.id"
                       :data="episode"
                       :index="season"
                       :episodeNb="ratings.episodeNb + 1"

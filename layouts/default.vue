@@ -34,9 +34,11 @@
             <!-- <v-switch class="justify-space-around" v-model="goDark"> -->
             <template v-if="!goDark">
               <fa :icon="['far', 'moon']" />
+              <span class="pl-2">Night Mode</span>
             </template>
             <template v-else>
               <fa :icon="['fas', 'sun']" />
+              <span class="pl-2">Light Mode</span>
             </template>
           </v-btn>
         </div>
